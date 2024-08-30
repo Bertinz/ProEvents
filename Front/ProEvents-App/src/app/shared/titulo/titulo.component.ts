@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-titulo',
@@ -8,10 +9,24 @@ import { Component, Input, OnInit } from '@angular/core';
 export class TituloComponent implements OnInit {
 
 
-  @Input() titulo: string | undefined;
-  constructor() { }
+  @Input()
+  titulo!: string;
+  @Input()
+  subtitulo!: string;
+  @Input()
+  iconClass!: string;
+  @Input()
+  botaoListar!: boolean;
+
+  constructor(private router: Router) { }
 
   ngOnInit() : void {
+
   }
+
+    list(): void {
+      this.router.navigate([`/${this.titulo.toLocaleLowerCase()}/lista`])
+    }
+
 
 }
