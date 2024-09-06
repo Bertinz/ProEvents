@@ -1,10 +1,10 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { Evento } from 'src/app/models/Evento';
-import { EventoService } from 'src/app/services/evento.service';
+import { Evento } from '@app/models/Evento';
+import { EventoService } from '@app/services/evento.service';
 
 @Component({
   selector: 'app-evento-lista',
@@ -62,7 +62,7 @@ export class EventoListaComponent implements OnInit {
   public getEventos(): void {
 
 
-    //observer -> next, error, complete
+    //observable -> next, error, complete
     this.eventoService.getEventos().subscribe
     ({
         next: (eventos: Evento[]) => { //_eventos era response, antes de tiparmos os components em services
@@ -70,8 +70,8 @@ export class EventoListaComponent implements OnInit {
           this.eventosFiltrados = this.eventos;
         },
         error: (error:any) => {
-          this.spinner.hide(),
-          this.toastr.error('Failed to load the events', 'Error!')
+          this.spinner.hide();
+          this.toastr.error('Failed to load the events', 'Error!');
         },
         complete: () => this.spinner.hide()
       });
