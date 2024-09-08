@@ -19,6 +19,7 @@ using ProEvents.Persistence.Contratos;
 using ProEvents.Persistence.Context;
 using ProEvents.Application;
 using ProEvents.Application.Contratos;
+using AutoMapper;
 
 namespace ProEvents.API
 {
@@ -42,6 +43,8 @@ namespace ProEvents.API
                     .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling =
                         Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     );
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); //Coloca no serviço, a capacidade de trabalhar com o autommaper
 
             services.AddScoped<IEventoService, EventoService>(); //toda vez que for requisitado IEventoService, será injetado EventoService
             services.AddScoped<IGeralPersist, GeralPersist>();

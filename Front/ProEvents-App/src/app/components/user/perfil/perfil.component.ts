@@ -42,7 +42,7 @@ export class PerfilComponent implements OnInit {
     );
   }
 
-  onSubmit(): void{
+  onSubmit(): void{ //vai parar aqui se o form estiver inválido
     if(this.form.invalid){
       return;
     }
