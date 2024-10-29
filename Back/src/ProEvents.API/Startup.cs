@@ -47,8 +47,10 @@ namespace ProEvents.API
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); //Coloca no serviço, a capacidade de trabalhar com o autommaper
 
             services.AddScoped<IEventoService, EventoService>(); //toda vez que for requisitado IEventoService, será injetado EventoService
+            services.AddScoped<ILoteService, LoteService>();
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IEventoPersist, EventoPersist>();
+            services.AddScoped<ILotePersist, LotePersist>();
 
             services.AddCors();
             services.AddSwaggerGen(c =>

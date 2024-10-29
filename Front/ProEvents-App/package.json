@@ -26,6 +26,7 @@
     "g": "^2.0.1",
     "jquery": "^1.9.1",
     "ngx-bootstrap": "^7.1.0",
+    "ngx-currency": "^3.0.0",
     "ngx-spinner": "^12.0.0",
     "ngx-toastr": "^14.3.0",
     "node-modules": "^1.0.1",
