@@ -50,7 +50,7 @@
         <td class="d-none d-md-table-cell">
           <img [collapse] ="showImg"
           [isAnimated]="true"
-          src="/assets/{{evento.imagemURL}}"
+          [src]="mostrarImagem(evento.imagemURL)"
           [style.width.px] = "widthImg"
           [style.margin.px] = "marginImg"
           alt=""

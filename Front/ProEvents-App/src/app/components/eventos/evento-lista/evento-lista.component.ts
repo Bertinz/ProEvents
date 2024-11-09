@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Evento } from '@app/models/Evento';
 import { EventoService } from '@app/services/evento.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-evento-lista',
@@ -56,9 +57,13 @@ export class EventoListaComponent implements OnInit {
     this.getEventos();
   }
 
-  public AlterImage() {
+  public AlterImage(): void {
     this.showImg = !this.showImg;
   } //toda vez que clicar em mostrar, mostrará o oposto.
+
+  public mostrarImagem(imagemURL: string): string {
+    return imagemURL !== '' ? `${environment.apiURL}resources/images/${imagemURL}` : 'assets/img/semImagem.jpg';
+  }
 
   public getEventos(): void {
 
