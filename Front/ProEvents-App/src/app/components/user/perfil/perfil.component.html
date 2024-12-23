@@ -1,79 +1,76 @@
-<app-titulo [titulo]="'Perfil'"></app-titulo>
-
-
+<app-titulo [titulo]="'Perfil'" [iconClass]="'fa fa-address-card'"></app-titulo>
 <div class="card rounded shadow-sm">
-<form [formGroup]="form">
-	<div class="row p-3">
-		<div class="col-lg-3 pt-1">
-			<div class="card mb-3">
-				<div class="card-header"></div>
-				<div class="d-flex align-self-center pt-3">
-					<a>
-						<img
-						src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
-						name="aboutme" width="120" height="120" class="rounded-circle">
-					</a>
-				</div>
-				<div class="card-body">
-					<div class="h4 text-center mb-3">UserName</div>
-					<div class="h7 text-bold pb-1"><b>Nome:</b> Miracles Lee Cross</div>
-					<div class="h7">
-						Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js,
-						etc.
-					</div>
-				</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col-6 text-center border-right">
-								<div class="h5">1342</div>
-								<div class="h6 text-muted">Eventos Ministrados</div>
-							</div>
-							<div class="col-6 text-center">
-								<div class="h5">1342</div>
-								<div class="h6 text-muted">Eventos Participados</div>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<div class="card-footer"></div>
-			</div>
-		</div>
-		<div class="col-lg-9">
-			<div class="form-row">
-				<div class="form-group col-12">
-					<h3 class="border-bottom">Detalhe Perfil</h3>
-				</div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row p-3">
+      <div class="col-lg-3 pt-1">
+        <div class="card mb-3">
+          <div class="card-header"></div>
+          <div class="d-flex align-self-center pt-3">
+            <a href="#aboutModal" data-toggle="modal" data-target="#myModal">
+              <img
+              src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
+              name="aboutme" width="120" height="120" class="rounded-circle">
+            </a>
+          </div>
+          <div class="card-body">
+            <div class="h4 text-center mb-3">@{{f.userName.value}}</div>
+            <div class="h7 text-bold pb-1"><b>Nome:</b> {{f.primeiroNome.value + ' ' + f.ultimoNome.value}}</div>
+            <div class="h7">
+              {{f.descricao.value}}
+            </div>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-6 text-center border-right">
+                  <div class="h5">0</div>
+                  <div class="h6 text-muted">Meus Eventos Criados</div>
+                </div>
+                <div class="col-6 text-center">
+                  <div class="h5">0</div>
+                  <div class="h6 text-muted">Eventos como Participante</div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="card-footer"></div>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="form-row">
+          <div class="form-group col-12">
+            <h3 class="border-bottom">Detalhe Perfil</h3>
+          </div>
 				<div class="form-group col">
 					<label>Título</label>
-					<select formControlName="title" class="form-control" [ngClass]="{ 'is-invalid': f.title!.errors && f.title!.touched }">
+					<select formControlName="titulo" class="form-control" [ngClass]="{ 'is-invalid': f.titulo!.errors && f.titulo!.touched }">
 						<option value=""></option>
-						<option value="0">Não Quero</option>
-						<option value="Senhorita">Tecnólogo(a)</option>
-						<option value="Senhorita">Bacharel</option>
-						<option value="Senhorita">Especialista</option>
-						<option value="Senhorita">Pós Graduado(a)</option>
-						<option value="Senhorita">Mestre</option>
-						<option value="Senhorita">Doutor(a)</option>
-						<option value="Senhorita">Pós Doc</option>
+						<option value="Nao Informado">Não Quero</option>
+						<option value="Tecnologo">Tecnólogo(a)</option>
+						<option value="Bacharel">Bacharel</option>
+						<option value="Especialista">Especialista</option>
+						<option value="PosGraduado">Pós Graduado(a)</option>
+						<option value="Mestrado">Mestre</option>
+						<option value="Doutorado">Doutor(a)</option>
+						<option value="PosDoutorado">Pós Doc</option>
 					</select>
-          <div *ngIf="f.title!.errors && f.title!.touched" class="invalid-feedback">
-            <div *ngIf="f.title.errors?.required">Título é obrigatório</div>
+          <div *ngIf="f.titulo!.errors && f.titulo!.touched" class="invalid-feedback">
+            <div *ngIf="f.titulo.errors?.required">Título é obrigatório</div>
           </div>
 				</div>
 				<div class="form-group col-sm-5">
           <label>Primeiro Nome</label>
-          <input class="form-control" type="text"  [ngClass]="{'is-invalid': f.firstName!.errors && f.firstName!.touched }"
-          formControlName="firstName" placeholder="Insira o Primeiro nome" />
-          <div *ngIf="f.firstName.errors?.required && f.firstName!.touched" class="invalid-feedback">
+          <input class="form-control" type="text"  [ngClass]="{'is-invalid': f.primeiroNome!.errors && f.primeiroNome!.touched }"
+          formControlName="primeiroNome" placeholder="Insira o Primeiro nome" />
+          <div *ngIf="f.primeiroNome.errors?.required && f.primeiroNome!.touched" class="invalid-feedback">
             Campo obrigatório.
           </div>
 				</div>
 				<div class="form-group col-sm-5">
           <label>Último nome</label>
-          <input class="form-control" type="text"  [ngClass]="{'is-invalid': f.lastName!.errors && f.lastName!.touched }"
-          formControlName="lastName" placeholder="Insira o Último nome" />
-          <div *ngIf="f.lastName.errors?.required && f.lastName!.touched" class="invalid-feedback">
+          <input class="form-control" type="text"  [ngClass]="{'is-invalid': f.ultimoNome!.errors && f.ultimoNome!.touched }"
+          formControlName="ultimoNome" placeholder="Insira o Último nome" />
+          <div *ngIf="f.ultimoNome.errors?.required && f.ultimoNome!.touched" class="invalid-feedback">
             Campo obrigatório.
           </div>
 				</div>
@@ -92,28 +89,32 @@
 				</div>
 				<div class="form-group col-sm-4">
           <label for="">Telefone:</label>
-          <input class="form-control" type="text" [ngClass]="{'is-invalid': f.telefone!.errors && f.telefone!.touched }"
-          formControlName="telefone" placeholder="(000) 90000-0000" />
-          <div *ngIf="f.telefone.errors?.required && f.telefone!.touched" class="invalid-feedback">
+          <input class="form-control" type="text" [ngClass]="{'is-invalid': f.phoneNumber!.errors && f.phoneNumber!.touched }"
+          formControlName="phoneNumber" placeholder="(000) 90000-0000" />
+          <div *ngIf="f.phoneNumber.errors?.required && f.phoneNumber!.touched" class="invalid-feedback">
             Campo obrigatório.
           </div>
 				</div>
 				<div class="form-group col-sm">
 					<label>Função</label>
-					<select class="form-control" [ngClass]="{'is-invalid': f.function!.errors && f.function!.touched }"
-          formControlName="function" placeholder="Insira o nome de Usuário">
-						<option value=""></option>
+					<select class="form-control" [ngClass]="{'is-invalid': f.funcao!.errors && f.funcao!.touched }"
+          formControlName="funcao" placeholder="Insira o nome de Usuário">
+						<option value="NaoInformado">Nao Informado</option>
 						<option value="Participante">Participante</option>
 						<option value="Palestrante">Palestrante</option>
 					</select>
-          <div *ngIf="f.function!.errors && f.function!.touched" class="invalid-feedback">
-            <div *ngIf="f.function.errors?.required">Título é obrigatório</div>
+          <div *ngIf="f.funcao!.errors && f.funcao!.touched" class="invalid-feedback">
+            <div *ngIf="f.funcao.errors?.required">Título é obrigatório</div>
           </div>
 				</div>
-				<form-group class="col-12">
-					<label>Descrição</label>
-					<input type="text" class="form-control" />
-				</form-group>
+        <div class="form-group col-12">
+				<label>Descrição</label>
+        <input type="text" formControlName="descricao" class="form-control"
+        [ngClass]="{ 'is-invalid': f.descricao.errors && f.descricao.touched }" />
+        <div *ngIf="f.descricao.errors && f.descricao.touched" class="invalid-feedback">
+          <div *ngIf="f.descricao.errors.required">Descrição é obrigatório</div>
+        </div>
+      </div>
 			</div>
 			<div>
 				<h3 class="pt-3 border-bottom">Mudar Senha</h3>

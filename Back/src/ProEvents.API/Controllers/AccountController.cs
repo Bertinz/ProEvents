@@ -26,7 +26,7 @@ namespace ProEvents.API.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpGet("GetUser/{userName}")]
+        [HttpGet("GetUser")]
          
         public async Task<IActionResult> GetUser() //para entrar nessa rota
         {
@@ -54,7 +54,12 @@ namespace ProEvents.API.Controllers
 
                 var user = await _accountService.CreateAccountAsync(userDto);
                 if (user != null)
-                    return Ok(user);
+                    return Ok(new
+                {
+                    userName = user.UserName,
+                    PrimeiroNome = user.PrimeiroNome,
+                    token = _tokenService.CreateToken(user).Result
+                });
                 
                 return BadRequest("Usuario nao criado, tente novamente mais tarde ou contate o suporte.");
             }
@@ -91,12 +96,14 @@ namespace ProEvents.API.Controllers
             }
         }
 
-        [HttpPost("UpdateUser")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Register(UserUpdateDto userUpdateDto)  
+        [HttpPut("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)  
         {
             try
             {
+                if(userUpdateDto.UserName != User.GetUserName()) //caso passe user update diferente do token
+                    return Unauthorized("Usuario Invalido");
+
                 var user = await _accountService.GetUserByUserNameAsync(User.GetUserName());
                 if (user == null) return Unauthorized("Usuario Invalido");
 
@@ -104,7 +111,12 @@ namespace ProEvents.API.Controllers
                 if (userReturn == null)
                     return NoContent();
 
-                return Ok(userReturn);
+                return Ok(new
+                {
+                    userName = userReturn.UserName,
+                    PrimeiroNome = userReturn.PrimeiroNome,
+                    token = _tokenService.CreateToken(userReturn).Result
+                });
                 
             }
             catch(Exception ex)

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Evento } from '../models/Evento';
 import { Observable } from 'rxjs';
@@ -9,12 +9,15 @@ import { environment } from '@environments/environment';
 
 export class EventoService {
 
-baseURL = environment.apiURL + 'api/eventos';
+baseURL = `${environment.apiURL}api/eventos`;
+
+
+//interceptor vai interceptar qualquer requisicao http na aplicacao, vai clonar ela, adicionar o header dentro da requisicao e colocar uma propriedade nesse cabecalho (bearer token)
 constructor(private http: HttpClient) { }
 
 public getEventos(): Observable<Evento[]>
 {
-  return this.http.get<Evento[]>(this.baseURL)
+  return this.http.get<Evento[]>(this.baseURL )
           .pipe(take(1));
 
 }

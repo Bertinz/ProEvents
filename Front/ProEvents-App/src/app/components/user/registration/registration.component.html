@@ -11,7 +11,7 @@
 
 
 
-    <form [formGroup]="form">
+    <form [formGroup]="form" class="p-1" (ngSubmit)="register()">
       <div class="pb-2 d-block d-md-none">
         <h3 class="border-bottom">Cadastro de Usuário</h3>
       </div>
@@ -84,8 +84,8 @@
       </div>
       <div class="form-row">
         <div class="form-group col-12">
-          <button class="btn btn-lg btn-success btn-block px-5">
-            Registar
+          <button [disabled]="form.invalid" class="btn btn-lg btn-success btn-block px-5" type="submit">
+            Registrar
           </button>
         </div>
       </div>

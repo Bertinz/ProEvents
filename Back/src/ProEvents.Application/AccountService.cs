@@ -46,7 +46,7 @@ namespace ProEvents.Application
             }
         }
 
-        public async Task<UserDto> CreateAccountAsync(UserDto userDto)
+        public async Task<UserUpdateDto> CreateAccountAsync(UserDto userDto)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace ProEvents.Application
                 var result = await _userManager.CreateAsync(user, userDto.Password);
 
                 if(result.Succeeded) {
-                    var userToReturn = _mapper.Map<UserDto>(user);
+                    var userToReturn = _mapper.Map<UserUpdateDto>(user);
                     return userToReturn;
                 }
                 return null;
@@ -90,20 +90,22 @@ namespace ProEvents.Application
                 var user = await _userPersist.GetUsersByUserNameAsync(userUpdateDto.UserName);
                 if(user == null) return null;
 
+                userUpdateDto.Id = user.Id; // no Dto n tem Id, por isso adicionamos aqui
+
                 _mapper.Map(userUpdateDto, user);
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-                var result = await _userManager.ResetPasswordAsync(user, token, userUpdateDto.Password); //reseta e retorna o token para n deslogar o user assim q mudar 
+                if (userUpdateDto.Password != null) {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    await _userManager.ResetPasswordAsync(user, token, userUpdateDto.Password);
+                }
 
                 _userPersist.Update<User>(user);
 
-                if(await _userPersist.SaveChangesAsync()){
+                if (await _userPersist.SaveChangesAsync())
+                {
                     var userRetorno = await _userPersist.GetUsersByUserNameAsync(user.UserName);
-
                     return _mapper.Map<UserUpdateDto>(userRetorno);
                 }
-
                 return null;
             }
             catch (System.Exception ex)
