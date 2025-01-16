@@ -13,6 +13,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using ProEvents.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using ProEvents.Persistence.Models;
 
 namespace ProEvents.API.Controllers
 {
@@ -35,12 +36,14 @@ namespace ProEvents.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() //IActionResult permite retornar os status code do http
+        public async Task<IActionResult> Get([FromQuery]PageParams pageParams) //IActionResult permite retornar os status code do http
         {
             try
             {
-                var eventos = await _eventoService.GetAllEventosAsync(User.GetUserId(), true); //sempre retornar com os participantes //Pega id a partir do token (User.Get), retornando os eventos apenas de quem ta passando o token
+                var eventos = await _eventoService.GetAllEventosAsync(User.GetUserId(), pageParams, true); //sempre retornar com os participantes //Pega id a partir do token (User.Get), retornando os eventos apenas de quem ta passando o token
                 if (eventos == null) return NoContent(); //erro 404
+
+                Response.AddPagination(eventos.CurrentPage, eventos.PageSize, eventos.TotalCount, eventos.TotalPages);
 
                 return Ok(eventos);
             }
@@ -68,22 +71,6 @@ namespace ProEvents.API.Controllers
             }
         }
 
-        [HttpGet("{tema}/tema")] //colocar /tema porque o http pode confundir, consertando a rota
-        public async Task<IActionResult> GetByTema(string tema) //ActionResult<Evento> consegue trabalhar com detalhes de evento
-        {
-            try
-            {
-                var evento = await _eventoService.GetAllEventosByTemaAsync(User.GetUserId(), tema, true);
-                if (evento == null) return NoContent(); 
-
-                return Ok(evento);
-            }
-            catch(Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar recuperar eventos. Erro: {ex.Message}");
-            }
-        }
 
         [HttpPost("upload-image/{eventoId}")]
         public async Task<IActionResult> UploadImage(int eventoId)

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using ProEvents.Persistence.Contratos;
 using ProEvents.Domain;
 using ProEvents.Persistence.Context;
+using ProEvents.Persistence.Models;
 
 namespace ProEvents.Persistence
 {
@@ -19,8 +20,9 @@ namespace ProEvents.Persistence
             
         }
 
-        public async Task<Evento[]> GetAllEventosAsync(int userId, bool includePalestrantes = false){
-            IQueryable<Evento> query = _context.Eventos
+        public async Task<PageList<Evento>> GetAllEventosAsync(int userId, PageParams pageParams, bool includePalestrantes = false){
+            
+                IQueryable<Evento> query = _context.Eventos
                 .Include(e => e.Lotes)
                 .Include(e => e.RedesSociais);
 
@@ -30,28 +32,13 @@ namespace ProEvents.Persistence
                     .ThenInclude(pe => pe.Palestrante);
             }
 
-            query = query.AsNoTracking().Where(e => e.UserId == userId)
+            query = query.AsNoTracking()
+                         .Where(e => (e.Tema.ToLower().Contains(pageParams.Term.ToLower()) ||
+                                      e.Local.ToLower().Contains(pageParams.Term.ToLower())) && //termo possui o tema
+                                      e.UserId == userId) 
                                         .OrderBy(e => e.Id);
 
-            return await query.ToArrayAsync();
-        }
-
-        public async Task<Evento[]> GetAllEventosByTemaAsync(int userId, string tema, bool includePalestrantes = false){
-            IQueryable<Evento> query = _context.Eventos
-                .Include(e => e.Lotes)
-                .Include(e => e.RedesSociais);
-
-            if (includePalestrantes) {
-                query = query
-                    .Include(e => e.PalestrantesEventos)
-                    .ThenInclude(pe => pe.Palestrante);
-            }
-
-            query = query.AsNoTracking().OrderBy(e => e.Id)
-                         .Where(e => e.Tema.ToLower().Contains(tema.ToLower()) &&  
-                                     e.UserId == userId);
-
-            return await query.ToArrayAsync();
+            return await PageList<Evento>.CreateAsync(query, pageParams.PageNumber, pageParams.pageSize);
         }
 
         public async Task<Evento> GetEventoByIdAsync(int userId, int eventoId, bool includePalestrantes = false){

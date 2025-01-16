@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Evento } from '../models/Evento';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { environment } from '@environments/environment';
+import { PaginatedResult } from '@app/models/Pagination';
 
 @Injectable() //providedIn: 'root 'pode injetar esse serviço em qualquer classe/componente)
 
@@ -15,10 +16,28 @@ baseURL = `${environment.apiURL}api/eventos`;
 //interceptor vai interceptar qualquer requisicao http na aplicacao, vai clonar ela, adicionar o header dentro da requisicao e colocar uma propriedade nesse cabecalho (bearer token)
 constructor(private http: HttpClient) { }
 
-public getEventos(): Observable<Evento[]>
+public getEventos(page?: number, itemsPerPage?: number, term?: string): Observable<PaginatedResult<Evento[]>>
 {
-  return this.http.get<Evento[]>(this.baseURL )
-          .pipe(take(1));
+  const paginatedResult: PaginatedResult<Evento[]> = new PaginatedResult<Evento[]>();
+
+  let params = new HttpParams;
+
+  if(page != null && itemsPerPage != null){
+    params = params.append('pageNumber', page.toString());
+    params = params.append('pageSize', itemsPerPage.toString());
+  }
+
+  if(term != null && term != '')
+    params = params.append('term', term);
+
+  return this.http.get<Evento[]>(this.baseURL, {observe: 'response', params } )
+          .pipe(take(1), map((response) => {
+            paginatedResult.result = response.body as Evento[];
+            if(response.headers.has('Pagination')) {
+              paginatedResult.pagination = JSON.parse(response.headers.get('Pagination') as string);
+            }
+            return paginatedResult;
+          })); //map manipula o resultado antes de entregar ele pra quem esta se inscrevendo no observable
 
 }
 
