@@ -13,9 +13,8 @@ namespace ProEvents.Domain.Identity
         public string UltimoNome { get; set; }
         public Titulo Titulo { get; set; }
         public string Descricao { get; set; }
-        public Funcao Funcao { get; set; }
+        public Funcao Funcao { get; set; } //participante ou palestrante
         public string ImagemURL { get; set; }
-        public int? PalestranteId { get; set; }
         public IEnumerable<UserRole> UserRoles { get; set; }
     }
 }

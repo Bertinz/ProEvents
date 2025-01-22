@@ -18,7 +18,6 @@ namespace ProEvents.API.Controllers
     {
            
         private readonly ILoteService _loteService;
-        private readonly ProEventsContext _context;
         public LotesController(ILoteService LoteService)
         {
             _loteService = LoteService;

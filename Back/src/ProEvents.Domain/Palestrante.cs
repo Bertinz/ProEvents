@@ -14,8 +14,8 @@ namespace ProEvents.Domain
         //public string ImagemURL { get; set; } removido pq vai vir de User
         // public string Telefone { get; set; } removido pq vai vir de User
         // public string Email { get; set; } removido pq vai vir de User
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int UserId { get; set; } 
+        public User User { get; set; } //o palestrante eh um usuario com a permissao
         public IEnumerable<RedeSocial> RedesSociais { get; set; }
         public IEnumerable<PalestranteEvento> PalestrantesEventos{ get; set; }
     }
