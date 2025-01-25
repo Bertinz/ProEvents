@@ -115,7 +115,7 @@ namespace ProEvents.API.Controllers
             }
         }
 
-        [HttpDelete("evento{eventoId}/{redeSocialId}")]
+        [HttpDelete("evento/{eventoId}/{redeSocialId}")]
         public async Task<IActionResult> DeleteByEvento(int eventoId, int redeSocialId)
         {
             try

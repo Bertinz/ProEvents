@@ -67,4 +67,13 @@ logout(): void {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
+
+  postUpload(file: any): Observable<UserUpdate>{
+    const fileToUpload = file[0] as File;
+    const formData = new FormData();
+    formData.append('file', fileToUpload)
+
+    return this.http.post<UserUpdate>(`${this.baseUrl}upload-image`, formData) //como não está editando nada, passa apenas URL e evento de parâmetro
+    .pipe(take(1));
+  }
 }

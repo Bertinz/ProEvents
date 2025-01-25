@@ -40,9 +40,12 @@ namespace ProEvents.API.helpers
         //não é um endpoint, não poderá ser acessado por fora da API da mesma forma q post, get,...
 
         public void DeleteImage(string imageName, string destino) {
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @$"Resources/{destino}", imageName); //pega raiz atual do caminho e concatena com o diretório criado (resources/images)
-            if(System.IO.File.Exists(imagePath)){
-                System.IO.File.Delete(imagePath);
+            if(!string.IsNullOrEmpty(imageName)){
+
+                var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @$"Resources/{destino}", imageName); //pega raiz atual do caminho e concatena com o diretório criado (resources/images)
+                if(System.IO.File.Exists(imagePath)){
+                    System.IO.File.Delete(imagePath);
+            }
             }
         }
     }

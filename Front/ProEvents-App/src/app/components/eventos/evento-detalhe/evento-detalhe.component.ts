@@ -23,13 +23,13 @@ import { Observable } from 'rxjs';
 export class EventoDetalheComponent implements OnInit {
 
   modalRef?: BsModalRef;
-  eventoId!: number;
+  eventoId = {} as number;
   evento = {} as Evento;
   form!: FormGroup;
   modoSalvar = 'post';
   loteAtual = {id: 0, nome: '', indice: 0};
   imagemURL = 'assets/img/cloud.png';
-  file = File;
+  file = {} as File;
 
   get modoEditar(): boolean {
     return this.modoSalvar === 'put';
