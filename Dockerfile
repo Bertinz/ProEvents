@@ -1,6 +1,6 @@
 FROM node:14.15.5
 
-WORKDIR /src
+WORKDIR /ProEvents-App
 
 COPY package*.json ./
 RUN npm install --only=production
