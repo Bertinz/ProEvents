@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/Bertinz/ProEvents/issues"
   },
-  "homepage": "https://github.com/Bertinz/ProEvents#readme"
+  "homepage": "https://github.com/Bertinz/ProEvents#readme",
+  "dependencies": {
+    "node-modules": "^1.0.1"
+  }
 }
