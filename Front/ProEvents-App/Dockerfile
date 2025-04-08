@@ -7,10 +7,9 @@ COPY package*.json ./
 COPY ./src ./src
 RUN npm install
 RUN npm install -g serve
-RUN npm run build
 RUN rm -fr node_modules
 
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD [ "serve", "-s" ]
