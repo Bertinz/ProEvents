@@ -86,6 +86,7 @@ export class RedesSociaisComponent implements OnInit {
     let origem = 'palestrante';
 
     if (this.eventoId !== 0) origem = 'evento';
+  
 
     if (this.formRS.controls.redesSociais.valid) {
       this.spinner.show();

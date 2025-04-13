@@ -6,7 +6,7 @@
         <div class="p-3">
           <div class="form-row">
             <div class="form-group col-md-12">
-              <p>Form Value: {{form.controls.imagemURL.value | json}}</p>
+              <!-- <p>Form Value: {{form.controls.imagemURL.value | json}}</p> -->
               <label>Tema</label>
               <input type="text" class="form-control is-invalid"
               [ngClass]="{'is-invalid': f.tema!.errors && f.tema!.touched }"
@@ -94,7 +94,7 @@
 
 
     <div class="card rounded shadow-sm mt-3" *ngIf="modoEditar">
-      <p>Form Value: {{form.controls.lotes.value | json}}</p>
+      <!-- <p>Form Value: {{form.controls.lotes.value | json}}</p> -->
 
       <div class="p-3">
         <div class="d-flex border-bottom">
